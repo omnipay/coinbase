@@ -32,4 +32,9 @@ class Response extends AbstractResponse
             return $this->data['order']['id'];
         }
     }
+
+    public function getTestMode()
+    {
+        return $this->getRequest()->getTestMode();
+    }
 }
