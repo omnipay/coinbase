@@ -9,7 +9,8 @@ namespace Omnipay\Coinbase\Message;
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-    protected $endpoint = 'https://api.coinbase.com/v1';
+    protected $liveEndpoint = 'https://api.coinbase.com/v1';
+    protected $testEndpoint = 'https://api.sandbox.coinbase.com/v1';
 
     public function getApiKey()
     {
@@ -54,7 +55,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         );
 
         $nonce = $this->generateNonce();
-        $url = $this->endpoint.$action;
+        $url = $this->getEndpoint().$action;
         $body = $data ? http_build_query($data) : null;
 
         $httpRequest = $this->httpClient->createRequest($method, $url, null, $body);
@@ -76,5 +77,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $message = $nonce.$url.$body;
 
         return hash_hmac('sha256', $message, $this->getSecret());
+    }
+
+    public function getEndpoint()
+    {
+        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 }
