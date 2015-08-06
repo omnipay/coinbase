@@ -30,7 +30,7 @@ class PurchaseResponse extends Response implements RedirectResponseInterface
     public function getRedirectUrl()
     {
         if ($this->isRedirect()) {
-            return $this->redirectEndpoint.'/'.$this->getTransactionReference();
+            return $this->getCheckoutEndpoint().'/'.$this->getTransactionReference();
         }
     }
 
