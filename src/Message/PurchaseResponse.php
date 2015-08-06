@@ -9,7 +9,8 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class PurchaseResponse extends Response implements RedirectResponseInterface
 {
-    protected $redirectEndpoint = 'https://coinbase.com/checkouts';
+    protected $redirectLiveEndpoint = 'https://api.coinbase.com/v2/checkouts';
+    protected $redirectTestEndpoint = 'https://api.sandbox.coinbase.com/v2/checkouts';
 
     public function isSuccessful()
     {
@@ -43,5 +44,10 @@ class PurchaseResponse extends Response implements RedirectResponseInterface
         if (isset($this->data['button']['code'])) {
             return $this->data['button']['code'];
         }
+    }
+    
+    protected function getCheckoutEndpoint()
+    {
+        return $this->getRequest()->getTestMode() ? $this->redirectTestEndpoint : $this->redirectLiveEndpoint;
     }
 }
