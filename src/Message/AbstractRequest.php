@@ -9,8 +9,10 @@ namespace Omnipay\Coinbase\Message;
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-    protected $liveEndpoint = 'https://api.coinbase.com/v2';
-    protected $testEndpoint = 'https://api.sandbox.coinbase.com/';
+    const API_VERSION = 'v2';
+    
+    protected $liveEndpoint = 'https://api.coinbase.com';
+    protected $testEndpoint = 'https://api.sandbox.coinbase.com';
 
     public function getApiKey()
     {
@@ -81,6 +83,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     
     protected function getEndpoint()
     {
-        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+        $base = $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+        return $base . '/' . self::API_VERSION;
     }
 }
