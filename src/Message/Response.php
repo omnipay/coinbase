@@ -11,8 +11,7 @@ class Response extends AbstractResponse
 {
     public function isSuccessful()
     {
-        return isset($this->data['order']['status']) &&
-            'completed' === $this->data['order']['status'];
+        return isset($this->data['order']['status']) && 'completed' === $this->data['order']['status'];
     }
 
     public function getMessage()
