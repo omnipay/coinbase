@@ -30,6 +30,16 @@ class PurchaseRequest extends AbstractRequest
     {
         $httpResponse = $this->sendRequest('POST', '/buttons', $data);
 
-        return $this->response = new PurchaseResponse($this, $httpResponse->json());
+        try{
+            $jsonRes = $httpResponse->json();
+        }
+        catch (\Error $e){
+            $res = array();
+            $res["error"] = $e->getMessage();
+
+            return $this->response = new PurchaseResponse($this, $res);
+
+        }
+        return $this->response = new PurchaseResponse($this, $jsonRes);
     }
 }
